@@ -82,3 +82,4 @@ print("Leaderboard:")
 leaderboard.sort(key=lambda x: x['score'], reverse=True)
 for index, entry in enumerate(leaderboard, start=1):
     print(f"{index}. {entry['name']}: {entry['score']} points")
+
