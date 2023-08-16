@@ -11,15 +11,25 @@ if playing.lower() != "yes":
 print("Okay! Let's play :) ")
 
 
-def random_problem():
+def random_problem(difficulty):
     operators = {
         '+': operator.add,
         '-': operator.sub,
         '*': operator.mul,
     }
 
-    num1 = random.randint(0, 20)
-    num2 = random.randint(0, 20)
+    if difficulty == "easy":
+        num1 = random.randint(0, 10)
+        num2 = random.randint(0, 10)
+    elif difficulty == "medium":
+        num1 = random.randint(0, 20)
+        num2 = random.randint(0, 20)
+    elif difficulty == "hard":
+        num1 = random.randint(10, 50)
+        num2 = random.randint(10, 50)
+    else:
+        print("Invalid difficulty level.")
+        return None
 
     operation = random.choice(list(operators.keys()))
     answer = operators.get(operation)(num1, num2)
@@ -28,22 +38,25 @@ def random_problem():
     return answer
 
 
-def ask_question():
-    answer = random_problem()
+def ask_question(difficulty):
+    answer = random_problem(difficulty)
     guess = int(input())
-    return guess == answer
+    return guess == answer, answer
 
 
 def game():
     print("Let's go!")
     score = 0
 
+    difficulty = input("Choose a difficulty level (easy/medium/hard): ").lower()
+
     while True:
-        if ask_question():
+        is_correct, correct_answer = ask_question(difficulty)
+        if is_correct:
             score += 1
             print("Correct!")
         else:
-            print("Incorrect!")
+            print(f"Incorrect! The correct answer is {correct_answer}")
             break
 
     return score
