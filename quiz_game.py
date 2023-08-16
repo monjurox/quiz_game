@@ -5,10 +5,10 @@ print("Welcome to the quiz !!")
 
 playing = input("Do you want to play? yes/no : ")
 
-if playing != "yes":
+if playing.lower() != "yes":
     quit()
 
-print("okay! Let's play :) ")
+print("Okay! Let's play :) ")
 
 
 def random_problem():
@@ -16,7 +16,6 @@ def random_problem():
         '+': operator.add,
         '-': operator.sub,
         '*': operator.mul,
-
     }
 
     num1 = random.randint(0, 20)
@@ -24,7 +23,7 @@ def random_problem():
 
     operation = random.choice(list(operators.keys()))
     answer = operators.get(operation)(num1, num2)
-    print(f' what is {num1} {operation} {num2}')
+    print(f'What is {num1} {operation} {num2}')
 
     return answer
 
@@ -36,24 +35,37 @@ def ask_question():
 
 
 def game():
-    print("lets go")
+    print("Let's go!")
     score = 0
 
     while True:
-        if ask_question() == True:
+        if ask_question():
             score += 1
-            print("correct!")
+            print("Correct!")
         else:
-            print("incorrect!")
-            # print('correct anser is ')
+            print("Incorrect!")
             break
-    print(f' your score is {score}')
+
+    return score
 
 
-game()
+leaderboard = []
 
-play_again = input("Do you want to play again? yes/no: ")
-if play_again.lower() == "yes":
-    game()
-else:
-    print("Thanks for playing! Goodbye!")
+while True:
+    score = game()
+    print(f'Your score is {score}')
+
+    player_name = input("Enter your name: ")
+    leaderboard.append({'name': player_name, 'score': score})
+
+    play_again = input("Do you want to play again? yes/no: ")
+    if play_again.lower() != "yes":
+        break
+
+print("Thanks for playing! Goodbye!")
+
+# Display the leaderboard
+print("Leaderboard:")
+leaderboard.sort(key=lambda x: x['score'], reverse=True)
+for index, entry in enumerate(leaderboard, start=1):
+    print(f"{index}. {entry['name']}: {entry['score']} points")
